@@ -65,4 +65,19 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<Task> markTaskComplete(@PathVariable Long id, @RequestParam boolean status) {
+        // 1. Call the new repository method to update only the 'completed' field
+        Task updatedTask = taskRepository.markComplete(id, status);
+
+        // 2. Check the result and return the appropriate HTTP status
+        if (updatedTask != null) {
+            // Return 200 OK with the partially updated task data
+            return ResponseEntity.ok(updatedTask);
+        } else {
+            // Return 404 Not Found if the ID was invalid
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
