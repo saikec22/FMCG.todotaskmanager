@@ -58,4 +58,15 @@ public class TaskRepository {
     public boolean deleteById(Long id) {
         return taskList.removeIf(t -> t.getId().equals(id));
     }
+
+    public Task markComplete(Long id, boolean status) {
+        Optional<Task> existingTaskOptional = findById(id);
+
+        if (existingTaskOptional.isPresent()) {
+            Task existingTask = existingTaskOptional.get();
+            existingTask.setCompleted(status);
+            return existingTask;
+        }
+        return null; // Task not found
+    }
 }
